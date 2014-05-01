@@ -1,0 +1,64 @@
+"""
+Sample Data Visualization Project
+Parse data from an ugly CSV or Excel file, and render it in
+JSON, save to a database, and visualize in graph form.
+
+   Part II: Take the data we just parsed and visualize using popular Python math libraries
+
+Copyright (c) 2013 E. Lynn Root
+ Distributed under the zlib png license. See LICENSE for details.
+
+Since License allows me to adapt project, I will enhance this project further.
+"""
+
+
+from collections import counter
+
+import csv
+import parse
+import matplotlib.pyplot as plt
+import numpy.numarray as na
+
+DATA_FILE = "../data/sample_sfpd_incident_all.csv"
+
+def visualize_days():
+    """Visualize data by day of week"""
+    data_file = parse.parse(DATA_FILE, ",")
+
+    #Counter returns a dict where it sums total values for each key.
+    #In our case here, the keys are DaysOfWeek, and the values are
+    #and values are count of incidents
+
+    counter = Counter(item["DayOfWeek"] for item in data_file)
+
+    #Separate out the counter in order to order it correctly when     plotting
+
+    data_list = [
+                    counter["Monday"],
+                    counter["Tuesday"],
+                    counter["Wednesday"],
+                    counter["Thursday"],
+                    counter["Friday"],
+                    counter["Saturday"],
+                    counter["Sunday"],
+            ]
+    day_tuple = tuple(["Mon","Tue","Wed","Thu","Fri","Sat","Sun"])
+
+    #Assign the data to the plot
+    plt.plot(data_list)
+
+    #Assign lables to the plot from day_tuple
+    plt.xticks(range(len(day_tuple)), day_tuple)
+
+    #show plot
+    plt.show()
+
+    #Save the graph!
+    plt.savefig("Days.png")
+
+    #close figure
+    plt.clf()
+
+
+
+
